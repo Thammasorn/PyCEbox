@@ -160,9 +160,9 @@ def ice_plot(ice_data, frac_to_plot=1.,
 
         for color_raw, (_, ice_curve) in zip(colors_raw, plot_ice_data.iteritems()):
             c = m.to_rgba(color_raw)
-            ax.plot(x, ice_curve, c=c, zorder=0, **kwargs)
+            ax.plot(x, ice_curve, c=c, zorder=0, **kwargs, label='{}'.format(color_raw))
     else:
-        ax.plot(x, plot_ice_data, zorder=0, **kwargs)
+        ax.plot(x, plot_ice_data, zorder=0, **kwargs, c='black')
 
     if plot_points:
         ax.scatter(point_x, point_y, zorder=10, **(point_kwargs or {}))
@@ -170,9 +170,12 @@ def ice_plot(ice_data, frac_to_plot=1.,
     if plot_pdp:
         pdp_kwargs = pdp_kwargs or {}
         pdp_data = pdp(ice_data)
-        ax.plot(x, pdp_data, **pdp_kwargs)
+        ax.plot(x, pdp_data, **pdp_kwargs, label='PDP')
 
-    return ax
+    if color_by is not None:
+      return ax,m
+    else:
+      return ax
 
 
 def pdp(ice_data):
